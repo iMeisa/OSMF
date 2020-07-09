@@ -21,11 +21,10 @@ for folder in os.listdir(song_path):
 	if os.path.isdir(os.path.join(song_path, folder)):
 		for file in os.listdir(os.path.join(song_path, folder)):
 			if file.endswith('.osu'):
-				raw_map = open(os.path.join(song_path, folder, file), 'r', encoding='utf8').readlines()
+				try:
+					raw_map = open(os.path.join(song_path, folder, file), 'r', encoding='utf8').readlines()
+					if raw_map[0] == 'osu file format v14\n':
 
-				if raw_map[0] == 'osu file format v14\n':
-
-					try:
 						timing_points_index = raw_map.index('[TimingPoints]\n')
 						objects_index = raw_map.index('[HitObjects]\n')
 						metadata_index = raw_map.index('[Metadata]\n')
@@ -163,8 +162,8 @@ for folder in os.listdir(song_path):
 								f.write(f'{beatmap["artist"]} - {beatmap["title"]} [{beatmap["difficulty"]}] | Main BPM: {main_bpm} | Total Streams: {total_streams} ({int(stream_percentage)}% Streams)\n')
 
 						map_count += 1
-					except:
-						print('idk')
+				except:
+					print('idk')
 
 stream_maps = open('StreamMaps.txt', 'r').readlines()
 print(f'Found {len(stream_maps)} stream maps')
