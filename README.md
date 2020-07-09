@@ -10,3 +10,5 @@ Once you have Python installed, click [here](https://github.com/iMeisa/OSMF/arch
 
 # Using
 Extract the project and double-click OSMF.py, it will go through all the maps in your library and create a list of streams maps in the same folder as the script
+
+Note: As of current, this tool can only scan maps from around 2016-present due to differences in file formatting
