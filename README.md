@@ -3,10 +3,10 @@ An osu tool for finding stream maps in your map library
 
 
 # Installing
-If you don't have Python installed, install it from here (You may need to restart as well): https://www.microsoft.com/en-us/p/python-37/9nj46sx7x90p
+If you don't have Python installed, install it from [here](https://www.microsoft.com/en-us/p/python-37/9nj46sx7x90p) (You may need to restart as well)
 
-Once you have Python installed, click here to download the script: (test)[https://github.com/iMeisa/OSMF/blob/master/MapScanner.py]
+Once you have Python installed, click [here](https://github.com/iMeisa/OSMF/archive/master.zip) to download the project
 
 
 # Using
-Drag the script to your desktop and double-click it, it will go through all the maps in your osu library and create a text file of all the stream maps it found
+Extract the project and double-click OSMF.py, it will go through all the maps in your library and create a list of streams maps in the same folder as the script
