@@ -124,7 +124,6 @@ for folder in os.listdir(song_path):
 					# Determine if quarter length
 					if i != first_object:
 						time_difference = hit_object['time'] - previous_object['time']
-						next_time_dif = int(next_raw_hit_object[2]) - hit_object['time']
 						if quarter - 2 < time_difference < quarter + 2:
 							quarter_note_count += 1
 							if note_start_time == 0:
