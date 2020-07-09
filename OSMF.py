@@ -11,7 +11,6 @@ map_count = 1
 for folder in os.listdir(song_path):
 	for file in os.listdir(os.path.join(song_path, folder)):
 		if file.endswith('.osu'):
-			# print(f'Checking: {os.path.join(song_path, folder, file)}')
 			raw_map = open(os.path.join(song_path, folder, file), 'r', encoding='utf8').readlines()
 
 			if raw_map[0] == 'osu file format v14\n':
@@ -41,7 +40,6 @@ for folder in os.listdir(song_path):
 						break
 
 					point = raw_map[i].split(',')
-					# print(point, 'Line:', i)
 					try:
 						time = int(point[0])
 					except:
@@ -59,8 +57,6 @@ for folder in os.listdir(song_path):
 							default_bpm['beatLength'] = beatLength
 						else:
 							beatmap['bpm']['changes'].append({'time': time, 'bpm': bpm, 'beatLength': beatLength})
-
-				# print(json.dumps(beatmap, indent=4))
 
 				first_object = objects_index + 1
 				previous_object = {'time': 0, 'x': 0, 'y':0}
@@ -84,8 +80,6 @@ for folder in os.listdir(song_path):
 
 				quarter_note_count = 1
 				note_start_time = 0
-				double_count = 0
-				triple_count = 0
 				burst_count = 0
 				stream_count = {}
 				total_stream_notes = 0
@@ -116,8 +110,6 @@ for folder in os.listdir(song_path):
 							continue
 						elif hit_object['time'] >= time_change:
 							adjust_beat_length(new_beatlength, new_bpm)
-							# print(f'Changed BPM to {whole} at {hit_object["time"]}')
-							# print(f'New quarter time: {quarter}')
 							break
 
 					# Determine if quarter length
@@ -128,73 +120,41 @@ for folder in os.listdir(song_path):
 							quarter_note_count += 1
 							if note_start_time == 0:
 								note_start_time = hit_object['time']
-							# if object_type == 'Slider':
-							# 	print(object_type)
+
 						else:
-							note_time_minutes = note_start_time // 60000
-							compact_note_time = f'{note_time_minutes}m {note_start_time // 1000 - (note_time_minutes * 60)}s'
 							# Declare if stream
-							if quarter_note_count == 2:
-								double_count += 1
-								# print(f'{compact_note_time}: Double')
-							elif quarter_note_count == 3:
-								triple_count += 1
-								# print(f'{compact_note_time}: Triple')
-							elif 3 < quarter_note_count < 6:
+							if 3 < quarter_note_count < 6:
 								burst_count += 1
 								total_stream_notes += quarter_note_count
-								# print(f'{compact_note_time}: Burst')
 							elif quarter_note_count >= 6:
 								if current_bpm in stream_count:
 									stream_count[current_bpm] += 1
 								else:
 									stream_count[current_bpm] = 1
 								total_stream_notes += quarter_note_count
-								# print(f'{compact_note_time}: Stream | Notes: {quarter_note_count}')
 
 							if quarter_note_count > longest_stream:
 								longest_stream = quarter_note_count
 							quarter_note_count = 1
 							note_start_time = 0
 
-							# Print note after stream
-							# if not quarter - 2 < next_time_dif < quarter + 2:
-							# 	if object_type == 'Slider':
-							# 		print(object_type)
-							# 	elif object_type == 'Spinner':
-							# 		print(object_type)
-							# 	elif half - 1 < time_difference < whole:
-							# 		print('Jump')
-							# 	else:
-							# 		print(object_type)
-					# else:
-					# 	print(object_type)
 					previous_object = hit_object
 
-				total_streams = 0
 				if len(stream_count) > 0:
 					main_bpm = int(max(stream_count.items(), key=operator.itemgetter(1))[0])
 				else:
 					main_bpm = int(beatmap['bpm']['default']['bpm'])
 
+				total_streams = 0
 				for bpm in stream_count:
 					total_streams += stream_count[bpm]
 
 				print(f'Map #{map_count}: {beatmap["artist"]} - {beatmap["title"]} [{beatmap["difficulty"]}]')
 				total_object_count = len(raw_map) - first_object
-				# print(f'{total_stream_notes}(total_stream_notes) / {total_object_count}(total_object_count) * 100')
 				try:
 					stream_percentage = total_stream_notes / total_object_count * 100
 				except:
 					stream_percentage = 0
-				# print(f'Stream Percentage: {stream_percentage}%')
-				# print(f'''\nTotal Object Count: {total_object_count}
-				# Doubles: {double_count}
-				# Triples: {triple_count}
-				# Bursts: {burst_count}
-				# Streams: {json.dumps(stream_count)}
-				# \tAverage Stream Length: {total_stream_notes / total_streams}
-				# \tLongest Stream: {longest_stream}''')
 
 				if stream_percentage >= 25 and main_bpm >= 140:
 					with open('StreamMaps.txt', 'a') as f:
