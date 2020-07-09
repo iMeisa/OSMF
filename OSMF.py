@@ -100,14 +100,6 @@ for folder in os.listdir(song_path):
 					else:
 						next_raw_hit_object = '000'
 
-					# Object type
-					if raw_hit_object[5][0] in ['B', 'L']:
-						object_type = 'Slider'
-					elif len(raw_hit_object) == 7:
-						object_type = 'Spinner'
-					else:
-						object_type = 'Circle'
-
 					hit_object = {'time': int(raw_hit_object[2]), 'x': int(raw_hit_object[0]), 'y': int(raw_hit_object[1])}
 
 					changes = beatmap['bpm']['changes']
