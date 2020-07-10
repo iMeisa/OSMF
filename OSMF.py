@@ -6,14 +6,14 @@ login_name = os.getlogin()
 
 song_path = f'C:\\Users\\{login_name}\\AppData\\Local\\osu!\\Songs'
 
-custom_param = input('Set custom bpm? [y/N] ') in 'yY'
-
-if not custom_param:
-	min_bpm = 140
-	max_bpm = 9999
-else:
-	min_bpm = int(input('Min BPM (Whole number): '))
-	max_bpm = int(input('Max BPM (Whole number): '))
+# custom_param = input('Set custom bpm? [y/N] ') in 'yY'
+# 
+# if not custom_param:
+# 	min_bpm = 140
+# 	max_bpm = 9999
+# else:
+# 	min_bpm = int(input('Min BPM (Whole number): '))
+# 	max_bpm = int(input('Max BPM (Whole number): '))
 
 open('StreamMaps.txt', 'w')
 map_count = 1
