@@ -1,4 +1,7 @@
-from configparser import ConfigParser as cfgp
+from configparser import ConfigParser
 
 file = 'config.ini'
-cfgp.read(file)
+config = ConfigParser()
+config.read(file)
+
+print(list(config['BPM']))
